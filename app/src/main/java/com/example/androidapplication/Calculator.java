@@ -13,7 +13,8 @@ import android.widget.Toast;
 public class Calculator extends AppCompatActivity {
 
     private TextView calcResult;
-    private Button btnNr1, btnNr2, btnNr3, btnNr4, btnNr5, btnNr6, btnNr7, btnNr8, btnNr9, btnNr0, btnEqual, btnAdd, btnClear;
+    private TextView calculate1;
+    private Button btnEqual, btnClear, btnAdd, btnProcent, btnDivision, btnMinus, btnMultiplication, btn9;
 
     private int val1 = 0;
     private StringBuilder strSum = new StringBuilder();
@@ -23,64 +24,97 @@ public class Calculator extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator);
-        btnNr1 = findViewById(R.id.btnNr1);
-        btnNr2 = findViewById(R.id.btnNr2);
-        btnNr3 = findViewById(R.id.btnNr3);
-        btnNr4 = findViewById(R.id.btnNr4);
-        btnNr5 = findViewById(R.id.btnNr5);
-        btnNr6 = findViewById(R.id.btnNr6);
-        btnNr7 = findViewById(R.id.btnNr7);
-        btnNr8 = findViewById(R.id.btnNr8);
-        btnNr9 = findViewById(R.id.btnNr9);
-        btnNr0 = findViewById(R.id.btnNr0);
         btnAdd = findViewById(R.id.btnAdd);
         btnEqual = findViewById(R.id.btnEqual);
         btnClear = findViewById(R.id.btnClear);
+        btnProcent = findViewById(R.id.btnProcent);
+        btnDivision = findViewById(R.id.btnDivision);
+        btnMinus = findViewById(R.id.btnMinus);
+        btnMultiplication = findViewById(R.id.btnMultiplication);
+        btn9 = findViewById(R.id.button9);
         calcResult = findViewById(R.id.calcResult);
+        calculate1 = findViewById(R.id.calculate1);
     }
 
     @SuppressLint("NonConstantResourceId")
     public void calculatorBtnPressed(View view) {
-        switch (view.getId()) {
-            case R.id.btnNr1:
-                strSum.append(btnNr1.getText().toString());
-                break;
-            case R.id.btnNr2:
-                strSum.append("2");
-                break;
-            case R.id.btnNr3:
-                strSum.append("3");
-                break;
-            case R.id.btnNr4:
-                strSum.append("4");
-                break;
-            case R.id.btnNr5:
-                strSum.append("5");
-                break;
-            case R.id.btnNr6:
-                strSum.append("6");
-                break;
-            case R.id.btnNr7:
-                strSum.append("7");
-                break;
-            case R.id.btnNr8:
-                strSum.append("8");
-                break;
-            case R.id.btnNr9:
-                strSum.append("9");
-                break;
-            case R.id.btnNr0:
-                strSum.append("0");
-                break;
-            case R.id.btnAdd:
+        Button button = findViewById(view.getId());
+        String buttonText = button.getText().toString();
+        switch (buttonText) {
+            case "+":
                 onAddButton();
                 break;
-            case R.id.btnClear:
+            case "-":
+                onMinusButton();
+                break;
+            case "*":
+                onMultiplicationButton();
+                break;
+            case "÷":
+                onDivisionButton();
+                break;
+            case "%":
+                // onProcentButton();
+                Toast.makeText(this, "% not implemented yet", Toast.LENGTH_SHORT).show();
+                break;
+            case ",":
+                // onCommaButton();
+                Toast.makeText(this, ", not implemented yet", Toast.LENGTH_SHORT).show();
+                break;
+            case "C":
                 onClearButton();
                 break;
-            case R.id.btnEqual:
+            case "=":
                 onEqualButton();
                 break;
+            default:
+                System.out.println(buttonText);
+                handleDigitInput(buttonText);
+                calculate1.append(buttonText);
+                break;
+        }
+    }
+
+    private void handleDigitInput(String digit) {
+        if (strSum.toString().equals("0")) {
+            strSum.setLength(0);
+        }
+        if (strSum.length() < 9) {
+            strSum.append(digit);
+        }
+    }
+
+    public boolean validate() {
+        if (strSum.length() == 0) {
+            Toast.makeText(this, "Please enter a number first", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (val1 != 0) {
+            performCalculation();
+        } else {
+            val1 = Integer.parseInt(strSum.toString());
+        }
+        strSum.setLength(0);
+        return true;
+    }
+
+    public void onAddButton() {
+        if (validate()) {
+            calculate1.append("+");
+        }
+    }
+    public void onMinusButton() {
+        if (validate()) {
+            calculate1.append("-");
+        }
+    }
+    public void onMultiplicationButton() {
+        if (validate()) {
+            calculate1.append("*");
+        }
+    }
+    public void onDivisionButton() {
+        if (validate()) {
+            calculate1.append("÷");
         }
     }
 
@@ -88,16 +122,7 @@ public class Calculator extends AppCompatActivity {
         val1 = 0;
         strSum.setLength(0);
         calcResult.setText("0");
-    }
-
-    public void onAddButton() {
-        System.out.println(strSum);
-        if (strSum.length() == 0) {
-            Toast.makeText(this, "Please enter a number first", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        val1 = Integer.parseInt(strSum.toString());
-        strSum.setLength(0);
+        calculate1.setText("");
     }
 
     public void onEqualButton() {
@@ -105,12 +130,26 @@ public class Calculator extends AppCompatActivity {
             Toast.makeText(this, "Please enter a number first", Toast.LENGTH_SHORT).show();
             return;
         }
-        int val2 = Integer.parseInt(strSum.toString());
-        int result = val1 + val2;
-        calcResult.setText(String.valueOf(result));
+        performCalculation();
+        calcResult.setText(String.valueOf(val1));
         strSum.setLength(0);
         val1 = 0;
+        calculate1.setText("");
     }
+
+    private void performCalculation() {
+        int val2 = Integer.parseInt(strSum.toString());
+        if (calculate1.getText().toString().contains("+")) {
+            val1 = val1 + val2;
+        } else if (calculate1.getText().toString().contains("-")) {
+            val1 = val1 - val2;
+        } else if (calculate1.getText().toString().contains("*")) {
+            val1 = val1 * val2;
+        } else if (calculate1.getText().toString().contains("÷")) {
+            val1 = val1 / val2;
+        }
+    }
+
 
     /* Navigation */
     public void homePressed(View view) {
