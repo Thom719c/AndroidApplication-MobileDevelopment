@@ -14,8 +14,6 @@ public class Calculator extends AppCompatActivity {
 
     private TextView calcResult;
     private TextView calculate1;
-    private Button btnEqual, btnClear, btnAdd, btnProcent, btnDivision, btnMinus, btnMultiplication, btn9;
-
     private int val1 = 0;
     private StringBuilder strSum = new StringBuilder();
 
@@ -24,14 +22,6 @@ public class Calculator extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator);
-        btnAdd = findViewById(R.id.btnAdd);
-        btnEqual = findViewById(R.id.btnEqual);
-        btnClear = findViewById(R.id.btnClear);
-        btnProcent = findViewById(R.id.btnProcent);
-        btnDivision = findViewById(R.id.btnDivision);
-        btnMinus = findViewById(R.id.btnMinus);
-        btnMultiplication = findViewById(R.id.btnMultiplication);
-        btn9 = findViewById(R.id.button9);
         calcResult = findViewById(R.id.calcResult);
         calculate1 = findViewById(R.id.calculate1);
     }
