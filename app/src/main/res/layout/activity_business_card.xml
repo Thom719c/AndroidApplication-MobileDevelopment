@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#404040"
     tools:context=".BusinessCard">
 
     <ImageView
@@ -14,15 +15,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/razerlogo" />
+        app:layout_constraintVertical_bias="0.39"
+        app:srcCompat="@drawable/razerlogo"
+        android:contentDescription="@string/razer" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="255dp"
         android:layout_height="35dp"
-        android:text="FOR GAMERS. BY GAMERS!"
-        android:textSize="20dp"
-        android:textColor="@color/black"
+        android:text="@string/for_gamers_by_gamers"
+        android:textSize="20sp"
+        android:textColor="@color/green"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +41,7 @@
         android:layout_marginStart="35dp"
         android:layout_marginBottom="40dp"
         android:onClick="homePressed"
-        android:text="Home"
+        android:text="@string/home"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
