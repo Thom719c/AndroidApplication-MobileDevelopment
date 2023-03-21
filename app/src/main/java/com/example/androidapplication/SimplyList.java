@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -41,8 +42,13 @@ public class SimplyList extends AppCompatActivity {
             // System.out.println("parent: " + listView.getClass().getName()); // parent
             // System.out.println("view: " + linearLayout.getClass().getName()); // view
             TextView tv = linearLayout.findViewById(R.id.rowTextView);
+            ImageView iv = linearLayout.findViewById(R.id.rowImageView);
+
             System.out.println("you pressed " + tv.getText());
+
             Intent intent = new Intent(this, DetailActivity.class);
+            intent.putExtra("carText", tv.getText());
+            intent.putExtra("carImg", String.valueOf(iv.getTag()));
             startActivity(intent);
         });
     }

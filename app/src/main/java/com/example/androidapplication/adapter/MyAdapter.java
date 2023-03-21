@@ -47,6 +47,7 @@ public class MyAdapter extends BaseAdapter {
         textView.setText(items.get(position).getText());
         ImageView imageView = view.findViewById(R.id.rowImageView);
         imageView.setImageResource(items.get(position).getImage());
+        imageView.setTag(items.get(position).getImage());
         return view;
     }
 }
