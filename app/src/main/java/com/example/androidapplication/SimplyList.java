@@ -9,19 +9,20 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.example.androidapplication.adapter.MyAdapter;
+import com.example.androidapplication.model.Item;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class SimplyList extends AppCompatActivity {
 
     private ListView listView;
     private ArrayAdapter<String> adapter;
+    private MyAdapter myAdapter;
 
     //private String[] values = new String[3];
-    private List<String> values = new ArrayList<>();
+    private List<Item> values = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +31,12 @@ public class SimplyList extends AppCompatActivity {
 
         addValues();
         listView = findViewById(R.id.listView);
-        adapter = new ArrayAdapter<>(this, R.layout.myrow, R.id.rowTextView, values);
-        listView.setAdapter(adapter);
+        // adapter = new ArrayAdapter<>(this, R.layout.myrow, R.id.rowTextView, values);
+
+        // Make custom adapter (extends BaseAdapter)
+        //
+        myAdapter = new MyAdapter(values, this);
+        listView.setAdapter(myAdapter);
         listView.setOnItemClickListener((listView, linearLayout, pos, id) -> {
             // System.out.println("parent: " + listView.getClass().getName()); // parent
             // System.out.println("view: " + linearLayout.getClass().getName()); // view
@@ -43,13 +48,12 @@ public class SimplyList extends AppCompatActivity {
     }
 
     private void addValues() {
-        values.add("A");
-        values.add("B");
-        values.add("C");
+        values.add(new Item("Car 1", R.drawable.car1));
+        values.add(new Item("Car 2", R.drawable.car2));
     }
 
     public void addPressed(View view) {
-        values.add("New Value");
-        adapter.notifyDataSetChanged(); // Should update the layout
+        values.add(new Item("New item", R.drawable.car0));
+        myAdapter.notifyDataSetChanged(); // Should update the layout
     }
 }
