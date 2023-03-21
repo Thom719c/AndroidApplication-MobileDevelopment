@@ -98,4 +98,15 @@
         android:text="Business Card"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="49dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="SimplyListBtnPressed"
+        android:text="Simply List"
+        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

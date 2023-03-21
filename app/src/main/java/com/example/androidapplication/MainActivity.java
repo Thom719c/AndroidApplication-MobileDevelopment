@@ -35,4 +35,8 @@ public class MainActivity extends AppCompatActivity {
     public void goToCalculatorBtnPressed(View view) {
         startActivity(new Intent(this, Calculator.class));
     }
+
+    public void SimplyListBtnPressed(View view) {
+        startActivity(new Intent(this, SimplyList.class));
+    }
 }

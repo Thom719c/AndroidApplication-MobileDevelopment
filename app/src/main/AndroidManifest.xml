@@ -12,6 +12,12 @@
         android:theme="@style/Theme.AndroidApplication"
         tools:targetApi="31">
         <activity
+            android:name=".DetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SimplyList"
+            android:exported="false" />
+        <activity
             android:name=".BusinessCard"
             android:exported="false" />
         <activity
