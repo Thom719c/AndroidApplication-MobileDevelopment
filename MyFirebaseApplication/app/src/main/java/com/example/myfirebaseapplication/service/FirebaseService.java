@@ -1,4 +1,4 @@
-package com.example.myfirebaseapplication;
+package com.example.myfirebaseapplication.service;
 
 import android.widget.ArrayAdapter;
 

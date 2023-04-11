@@ -9,11 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.myfirebaseapplication.adapter.MyAdapter;
 import com.example.myfirebaseapplication.model.Note;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.myfirebaseapplication.service.FirebaseService;
 
 public class MainActivity extends AppCompatActivity {
 

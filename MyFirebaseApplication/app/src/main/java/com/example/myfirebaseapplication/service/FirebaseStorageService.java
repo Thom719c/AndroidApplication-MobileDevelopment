@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.example.myfirebaseapplication.FirebaseService;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -22,7 +21,9 @@ public class FirebaseStorageService {
             System.out.println("Image URL: " + imageURL);
             // This could work but need some modification before it works but i used Glide instead.
             // imageView.setImageURI(Uri.parse(imageURL));
-            Glide.with(context).load(imageURL).into(imageView);
+            if (imageURL != null) {
+                Glide.with(context).load(imageURL).into(imageView);
+            }
         }, e -> {
             // Handle the failure
             System.out.println("Error retrieving image URL: " + e.getMessage());
