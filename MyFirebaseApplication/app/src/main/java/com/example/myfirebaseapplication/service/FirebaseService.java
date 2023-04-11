@@ -18,11 +18,10 @@ public class FirebaseService {
     //public List<Note> notes = new ArrayList<>();
     private ArrayAdapter adapter;
 
+    public FirebaseService() {}
+
     public FirebaseService(ArrayAdapter adapter) {
         this.adapter = adapter;
-    }
-
-    public FirebaseService() {
     }
 
     public void startListener() {
@@ -32,11 +31,17 @@ public class FirebaseService {
                 for (DocumentSnapshot s : snap.getDocuments()) {
                     System.out.println(s.getData().get("text"));
                     String t = s.getData().get("text").toString();
-                    Note note = new Note(s.getId(), t);
+                    String imgN = s.getString("imageName");
+                    String imgUrl = s.getString("imageURL");
+                    if (imgUrl == null || imgN == null) {
+                        imgN = "";
+                        imgUrl = "";
+                    }
+                    Note note = new Note(s.getId(), t, imgN, imgUrl);
                     adapter.add(note);
                 }
-                // adapter.notifyDatasetChanged(); // Will update the gui
-                adapter.notifyDataSetChanged();
+
+                adapter.notifyDataSetChanged(); // Will update the gui
             }
         });
     }
@@ -59,7 +64,7 @@ public class FirebaseService {
 
     }
 
-
+    // Update
     public void updateNote(String documentId, String newText) {
         DocumentReference ref = db.collection("notes").document(documentId);
         Map<String, Object> updates = new HashMap<>();
@@ -69,7 +74,14 @@ public class FirebaseService {
                 .addOnFailureListener(e -> System.out.println("Document not updated, " + documentId));
     }
 
+
     /* Images to/from notes */
+    /**
+     * Add image name and url to the chosen note
+     * @param documentId
+     * @param imageName
+     * @param imageURL
+     */
     public void addImageToNote(String documentId, String imageName, String imageURL) {
         DocumentReference ref = db.collection("notes").document(documentId);
         Map<String, Object> updates = new HashMap<>();
@@ -80,6 +92,12 @@ public class FirebaseService {
                 .addOnFailureListener(e -> System.out.println("Document not updated, " + documentId));
     }
 
+    /**
+     * Get image url from Firebase Cloud Firestore notes
+     * @param documentId
+     * @param successListener
+     * @param failureListener
+     */
     public void getImageFromNote(String documentId, OnSuccessListener<String> successListener, OnFailureListener failureListener) {
         DocumentReference ref = db.collection("notes").document(documentId);
         ref.get().addOnSuccessListener(documentSnapshot -> {

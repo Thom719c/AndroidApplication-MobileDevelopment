@@ -23,14 +23,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Make an adapter
+
         adapter = new ArrayAdapter<>(this, R.layout.myrow, R.id.rowTextView);
         fs = new FirebaseService(adapter);
-        //firebaseService.add2Note("Hi from android, with feedback!");
-        //firebaseService.startListener(notes);
         fs.startListener();
-
-        System.out.println("notes");
 
         showAllNotes(adapter);
     }
@@ -47,10 +43,9 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, NoteActivity.class);
             intent.putExtra("text", tv.getText());
             intent.putExtra("docId", adapter.getItem((int) id).getDocumentId());
+            intent.putExtra("imageName", adapter.getItem((int) id).getImageName());
+            intent.putExtra("imageUrl", adapter.getItem((int) id).getImageUrl());
             startActivity(intent);
         });
     }
-
-
-
 }

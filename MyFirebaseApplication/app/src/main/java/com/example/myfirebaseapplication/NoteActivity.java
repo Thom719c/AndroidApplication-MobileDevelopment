@@ -1,6 +1,5 @@
 package com.example.myfirebaseapplication;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,13 +10,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.myfirebaseapplication.service.FirebaseStorageService;
 
 import java.io.File;
@@ -48,14 +46,17 @@ public class NoteActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
 
         Intent intent = getIntent();
-        String txt = intent.getStringExtra("text");
         docId = intent.getStringExtra("docId");
+        String txt = intent.getStringExtra("text");
+        String imageName = intent.getStringExtra("imageName");
+        String imageUrl = intent.getStringExtra("imageUrl");
 
-        System.out.println(txt);
         textView.setText(txt);
 
-        // String imageURL = firebaseService.getImageFromNote(docId);
-        firebaseStorageService.getImage(this, docId, imageView);
+        //firebaseStorageService.getImage(this, docId, imageView);
+        if (!imageUrl.isEmpty()) {
+            Glide.with(this).load(imageUrl).into(imageView);
+        }
 
         // Launch the camera intent when the camera button is clicked
         Button cameraButton = findViewById(R.id.cameraButton);
@@ -63,6 +64,7 @@ public class NoteActivity extends AppCompatActivity {
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             cameraLauncher.launch(cameraIntent);
         });
+
         // Launch the gallery intent when the gallery button is clicked
         Button button = findViewById(R.id.galleryButton);
         button.setOnClickListener(view -> {
