@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,7 +25,8 @@ import java.io.IOException;
 
 public class NoteActivity extends AppCompatActivity {
 
-    private TextView textView;
+    private EditText editTextTitle;
+    private EditText editText;
 
     // TESTING
     private static final int REQUEST_IMAGE_PICKER = 1;
@@ -42,16 +44,19 @@ public class NoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
-        textView = findViewById(R.id.textView);
+        editTextTitle = findViewById(R.id.editTextTitle);
+        editText = findViewById(R.id.editText);
         imageView = findViewById(R.id.imageView);
 
         Intent intent = getIntent();
         docId = intent.getStringExtra("docId");
         String txt = intent.getStringExtra("text");
+        String title = intent.getStringExtra("title");
         String imageName = intent.getStringExtra("imageName");
         String imageUrl = intent.getStringExtra("imageUrl");
 
-        textView.setText(txt);
+        editTextTitle.setText(title);
+        editText.setText(txt);
 
         //firebaseStorageService.getImage(this, docId, imageView);
         if (!imageUrl.isEmpty()) {
@@ -109,9 +114,11 @@ public class NoteActivity extends AppCompatActivity {
     );
 
     public void savePressed(View view) {
-        if (selectedImageUri != null) {
+        String title = editTextTitle.getText().toString().trim();
+        String text = editText.getText().toString().trim();
+        if (!text.isEmpty() || selectedImageUri != null) {
             // Upload the image file to Firebase Storage and add the url to note
-            firebaseStorageService.uploadImage(selectedImageUri, docId);
+            firebaseStorageService.updateNote(title, text, selectedImageUri, docId);
         }
         finish();
     }

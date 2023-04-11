@@ -2,6 +2,7 @@ package com.example.myfirebaseapplication.model;
 
 public class Note {
     private String documentId;
+    private String title;
     private String text;
 
     private String imageName;
@@ -12,8 +13,9 @@ public class Note {
         this.text = text;
     }
 
-    public Note(String documentId, String text, String imageName, String imageUrl) {
+    public Note(String documentId, String title, String text, String imageName, String imageUrl) {
         this.documentId = documentId;
+        this.title = title;
         this.text = text;
         this.imageName = imageName;
         this.imageUrl = imageUrl;
@@ -22,7 +24,9 @@ public class Note {
     public String getDocumentId() {
         return documentId;
     }
-
+    public String getTitle() {
+        return title;
+    }
     public String getText() {
         return text;
     }
@@ -36,7 +40,7 @@ public class Note {
 
     @Override
     public String toString() {
-        return "Note text\n" + text;
+        return text;
         //return "documentId: " + documentId + "text: " + text;
     }
 }

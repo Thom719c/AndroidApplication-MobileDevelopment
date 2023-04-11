@@ -30,18 +30,19 @@ public class FirebaseService {
                 adapter.clear();
                 for (DocumentSnapshot s : snap.getDocuments()) {
                     System.out.println(s.getData().get("text"));
-                    String t = s.getData().get("text").toString();
+                    String title = s.getString("title");
+                    String text = s.getData().get("text").toString();
                     String imgN = s.getString("imageName");
                     String imgUrl = s.getString("imageURL");
                     if (imgUrl == null || imgN == null) {
                         imgN = "";
                         imgUrl = "";
                     }
-                    Note note = new Note(s.getId(), t, imgN, imgUrl);
+                    Note note = new Note(s.getId(), title, text, imgN, imgUrl);
                     adapter.add(note);
                 }
 
-                adapter.notifyDataSetChanged(); // Will update the gui
+                adapter.notifyDataSetChanged(); // Will update the gui, notify the adapter that data has changed
             }
         });
     }
@@ -65,9 +66,10 @@ public class FirebaseService {
     }
 
     // Update
-    public void updateNote(String documentId, String newText) {
+    public void updateNote(String documentId, String title, String newText) {
         DocumentReference ref = db.collection("notes").document(documentId);
         Map<String, Object> updates = new HashMap<>();
+        updates.put("title", title);
         updates.put("text", newText);
         ref.update(updates)
                 .addOnSuccessListener(unused -> System.out.println("Document updated, " + documentId))
@@ -91,6 +93,18 @@ public class FirebaseService {
                 .addOnSuccessListener(unused -> System.out.println("Document updated, " + documentId))
                 .addOnFailureListener(e -> System.out.println("Document not updated, " + documentId));
     }
+
+    /*public void addImageToNote(String documentId, String text, String imageName, String imageURL) {
+        DocumentReference ref = db.collection("notes").document(documentId);
+        Map<String, Object> updates = new HashMap<>();
+        System.out.println(text);
+        updates.put("text", text);
+        ref.update(updates)
+                .addOnSuccessListener(unused -> System.out.println("Document updated, " + documentId))
+                .addOnFailureListener(e -> System.out.println("Document not updated, " + documentId));
+    }*/
+
+
 
     /**
      * Get image url from Firebase Cloud Firestore notes

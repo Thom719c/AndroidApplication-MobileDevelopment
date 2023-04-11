@@ -30,7 +30,7 @@ public class FirebaseStorageService {
         });
     }
 
-    public void uploadImage(Uri imageUri, String docId) {
+    /*public void uploadImage(Uri imageUri, String docId) {
         // Create a reference to the file in Firebase Storage
         StorageReference fileRef = storageRef.child("images/" + UUID.randomUUID().toString());
 
@@ -58,5 +58,37 @@ public class FirebaseStorageService {
                 // File upload failed
                 e.printStackTrace();
             });
+    }*/
+    public void updateNote(String title, String text, Uri imageUri, String docId) {
+        // Create a reference to the file in Firebase Storage
+        StorageReference fileRef = storageRef.child("images/" + UUID.randomUUID().toString());
+
+        firebaseService.updateNote(docId, title, text);
+        if (imageUri != null) {
+            // Upload the file to Firebase Storage
+            fileRef.putFile(imageUri)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        // File uploaded successfully
+                        // Get a download URL for the file
+                        fileRef.getDownloadUrl()
+                                .addOnSuccessListener(uri -> {
+                                    //fileRef.getName();
+                                    // Get the download URL
+                                    String downloadUrl = uri.toString();
+                                    // Do something with the download URL, like save it to Firebase Database
+                                    // or display the image using an ImageView
+                                    // firebaseService.addImageToNote(docId, downloadUrl);
+                                    firebaseService.addImageToNote(docId, fileRef.getName(), downloadUrl);
+                                })
+                                .addOnFailureListener(e -> {
+                                    // Failed to get download URL
+                                    e.printStackTrace();
+                                });
+                    })
+                    .addOnFailureListener(e -> {
+                        // File upload failed
+                        e.printStackTrace();
+                    });
+        }
     }
 }

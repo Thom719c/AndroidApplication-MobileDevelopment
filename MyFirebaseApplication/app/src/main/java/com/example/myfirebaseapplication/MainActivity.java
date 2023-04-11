@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        adapter = new ArrayAdapter<>(this, R.layout.myrow, R.id.rowTextView);
+        adapter = new ArrayAdapter<>(this, R.layout.myrow, R.id.rowTextView) ;
         fs = new FirebaseService(adapter);
         fs.startListener();
 
@@ -38,11 +39,15 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener((listView, linearLayout, pos, id) -> {
             TextView tv = linearLayout.findViewById(R.id.rowTextView);
 
+            /*TextView ttv = linearLayout.findViewById(R.id.titleTextView);
+            ttv.setText(adapter.getItem((int) id).getTitle());*/
+
             System.out.println("you pressed " + tv.getText());
 
             Intent intent = new Intent(this, NoteActivity.class);
             intent.putExtra("text", tv.getText());
             intent.putExtra("docId", adapter.getItem((int) id).getDocumentId());
+            intent.putExtra("title", adapter.getItem((int) id).getTitle());
             intent.putExtra("imageName", adapter.getItem((int) id).getImageName());
             intent.putExtra("imageUrl", adapter.getItem((int) id).getImageUrl());
             startActivity(intent);
